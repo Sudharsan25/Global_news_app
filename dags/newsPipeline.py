@@ -2,13 +2,13 @@ from airflow import DAG
 from airflow.providers.http.operators.http import HttpOperator
 from airflow.decorators import task
 from airflow.providers.postgres.hooks.postgres import PostgresHook
-from datetime import datetime
+from datetime import datetime, timedelta
 import json
 
 with DAG(
     dag_id = 'news_etl_pipeline',
     start_date = datetime(2025,6,1),
-    schedule = '@weekly',
+    schedule = timedelta(days=3),
     catchup = False,
 ) as dag:
 
