@@ -15,8 +15,8 @@ app = FastAPI()
 origins = [
     "http://localhost:3000",  
     "http://localhost:8000", 
-    "https://news-frontend-pi.vercel.app/",
-    "https://news-frontend-jxjqe5i9l-sudharsan-senthil-kumars-projects.vercel.app/" #
+    "https://news-frontend-pi.vercel.app",
+    "https://news-frontend-jxjqe5i9l-sudharsan-senthil-kumars-projects.vercel.app" #
     # Add other specific frontend domains if necessary
 ]
 
