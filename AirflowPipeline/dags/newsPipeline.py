@@ -8,7 +8,7 @@ import json
 with DAG(
     dag_id = 'news_etl_pipeline',
     start_date = datetime(2025,6,1),
-    schedule = timedelta(days=3),
+    schedule = "@daily",
     catchup = False,
 ) as dag:
 
@@ -64,16 +64,16 @@ with DAG(
                     published_date_obj = None # Or a default date like datetime(1900, 1, 1).date()
 
             news_article = {
-                'title': article.get('title', ""),
-                'author': article.get('author', ""),
+                'title': article.get('title', "") or "",
+                'author': article.get('author', "") or "Unknown",
                 'description': article.get('description', ""),
-                'url': article.get('url', ""),
-                'image_url': article.get('image', ""),
+                'url': article.get('url', "") or "" ,
+                'image_url': article.get('image', "") or "",
                 'published_at': published_date_obj, 
-                'source': article.get('source', ""),
-                'category': article.get('category', ""),
-                'language': article.get('language', ""),
-                'country': article.get('country', "")
+                'source': article.get('source', "")or "",
+                'category': article.get('category', "") or "",
+                'language': article.get('language', "")or "",
+                'country': article.get('country', "")or ""
             }
             articles_data.append(news_article)
         return articles_data
