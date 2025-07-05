@@ -15,8 +15,7 @@ app = FastAPI()
 origins = [
     "http://localhost:3000",  # Your Next.js development server
     "http://localhost:8000",  # Your FastAPI development server (if needed)
-    "https://your-nextjs-frontend-domain.com", # Your deployed Next.js frontend domain
-    "https://www.your-nextjs-frontend-domain.com",
+    "https://news-frontend-pi.vercel.app/", # Your deployed Next.js frontend domain
     # Add other specific frontend domains if necessary
 ]
 
