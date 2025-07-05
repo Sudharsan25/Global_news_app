@@ -13,9 +13,10 @@ app = FastAPI()
 
 # Configure CORS
 origins = [
-    "http://localhost:3000",  # Your Next.js development server
-    "http://localhost:8000",  # Your FastAPI development server (if needed)
-    "https://news-frontend-pi.vercel.app/", # Your deployed Next.js frontend domain
+    "http://localhost:3000",  
+    "http://localhost:8000", 
+    "https://news-frontend-pi.vercel.app/",
+    "https://news-frontend-jxjqe5i9l-sudharsan-senthil-kumars-projects.vercel.app/" #
     # Add other specific frontend domains if necessary
 ]
 
