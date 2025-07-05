@@ -56,3 +56,35 @@ def read_articles_by_category(category: str, db: Session = Depends(get_db)):
     if not articles:
         raise HTTPException(status_code=404, detail=f"No articles found in category '{category}'")
     return articles
+
+@app.get("/articles/latest/", response_model=List[schemas.Article])
+def read_articles_latest(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    """
+    Retrieve the latest articles, sorted by published date (descending).
+    Defaults to 25 articles to reflect your requirement.
+    """
+    articles = crud.get_articles_sorted_by_date_latest(db, skip=skip, limit=limit)
+    return articles
+
+@app.get("/articles/by-title/", response_model=List[schemas.Article])
+def read_articles_by_title(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    """
+    Retrieve articles sorted by title (A-Z).
+    """
+    articles = crud.get_articles_sorted_by_title_asc(db, skip=skip, limit=limit)
+    return articles
+
+@app.get("/articles/by-language/{language_code}/", response_model=List[schemas.Article])
+def read_articles_by_language(
+    language_code: str,
+    skip: int = 0,
+    limit: int = 100,
+    db: Session = Depends(get_db)
+):
+    """
+    Retrieve articles filtered by a specific language code (e.g., 'en', 'es').
+    """
+    articles = crud.get_articles_by_language(db, language=language_code, skip=skip, limit=limit)
+    if not articles:
+        raise HTTPException(status_code=404, detail=f"No articles found for language '{language_code}'")
+    return articles
