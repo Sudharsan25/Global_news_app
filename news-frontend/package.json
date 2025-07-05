@@ -19,7 +19,9 @@
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
+    "@types/react-datepicker": "^6.2.0",
     "@types/react-dom": "^19",
+    "react-datepicker": "^8.4.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
