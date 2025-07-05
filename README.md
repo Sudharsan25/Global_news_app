@@ -57,8 +57,7 @@ Before you begin, ensure you have the following installed:
 
 ## Deployments
 * NextJS - https://news-frontend-pi.vercel.app/
-* FastAPI - https://news-pipeline-airflow.onrender.com
-* Airflow -https://cmcce7da601u901lq8ws1jpmb.astronomer.run/dzq4a29f/
+
 
 ## Getting Started
 
