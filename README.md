@@ -4,12 +4,18 @@
 
 This project provides a comprehensive news application, featuring a robust backend for article management (scraping, storage, and API serving) and a dynamic frontend for display, sorting, and filtering of news articles.
 
+![Global News Insights Architecture](https://github.com/Sudharsan25/News_Pipeline_Airflow/blob/main/docs/images/Frame%201.jpg)
+
 ## Features
 
+* **Open Source API:** Serves as the initial data source for news articles.
+* **Apache Airflow (ETL Pipeline):** Orchestrates the daily fetching of 25 latest news articles from the Open Source API and loads it into the PostgreSQL database.
+* **AWS RDS (PostgreSQL):** A managed relational database service storing and retrieving the news articles.
+* **FastAPI (Backend):** Serves as the RESTful API, handling requests from the frontend, querying the PostgreSQL database, and returning JSON data.
+* **Next.js (Frontend):** Consumes the FastAPI backend to display, sort, and filter news articles for users.
+
 ### Frontend (Next.js)
-* **Modern UI:** Professional and responsive design using Tailwind CSS.
-* **Header with Gradient:** Visually appealing header.
-* **Dynamic News Display:** Fetches and displays news articles in a grid layout.
+* **News Display:** Fetches and displays news articles in a grid layout.
 * **Pagination:** Navigate through news articles page by page.
 * **Sort Functionality:** Sort articles by:
     * Date (Latest first)
@@ -56,15 +62,4 @@ Before you begin, ensure you have the following installed:
 * **PostgreSQL** (running locally or accessible remotely)
 
 ## Deployments
-* NextJS - https://news-frontend-pi.vercel.app/
-
-
-## Getting Started
-
-Follow these steps to set up the project locally.
-
-### 1. Clone the Repository
-
-```bash
-git clone [https://github.com/your-username/your-repo-name.git](https://github.com/your-username/your-repo-name.git)
-cd your-repo-name
+* Frontend - https://news-frontend-pi.vercel.app/
