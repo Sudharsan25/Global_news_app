@@ -20,7 +20,7 @@ export default function NewsPage() {
   const articlesPerPage = 9; // 3 rows * 3 columns
 
   // State for Sorting
-  const [sortMethod, setSortMethod] = useState<'date_latest' | 'title_az' | 'none'>('date_latest');
+  const [sortMethod, setSortMethod] = useState<'date_latest' | 'title_az' | 'none'>('title_az');
   const [showSortDropdown, setShowSortDropdown] = useState(false);
 
   // State for Filtering
