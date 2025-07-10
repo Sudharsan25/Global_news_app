@@ -1,10 +1,10 @@
 from pydantic import BaseModel
 from datetime import date
-from typing import Optional # Import Optional for nullable fields
+from typing import Optional 
 
 class ArticleBase(BaseModel):
     title: str
-    author: Optional[str] = None # Added Optional and default None for nullable column
+    author: Optional[str] = None 
     description: str
     url: Optional[str] = None
     image_url: Optional[str] = None
@@ -12,11 +12,11 @@ class ArticleBase(BaseModel):
     category: str
     language: str
     country: str
-    published_at: date # Renamed to match SQLAlchemy model for consistency
+    published_at: date
 
 
 class Article(ArticleBase):
     id: int
 
     class Config:
-        from_attributes = True # Modern Pydantic V2+ uses from_attributes=True instead of orm_mode=True
+        from_attributes = True 

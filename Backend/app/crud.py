@@ -15,19 +15,10 @@ def get_articles_by_category(db: Session, category: str):
     return db.query(models.Article).filter(models.Article.category == category).all()
 
 def get_articles_sorted_by_date_latest(db: Session, skip: int = 0, limit: int = 100):
-    """
-    Retrieves a list of articles sorted by published_at in descending order (latest first).
-    """
     return db.query(models.Article).order_by(models.Article.published_at.desc()).offset(skip).limit(limit).all()
 
 def get_articles_sorted_by_title_asc(db: Session, skip: int = 0, limit: int = 100):
-    """
-    Retrieves a list of articles sorted by title in ascending order (A-Z).
-    """
     return db.query(models.Article).order_by(models.Article.title.asc()).offset(skip).limit(limit).all()
 
 def get_articles_by_language(db: Session, language: str, skip: int = 0, limit: int = 100):
-    """
-    Retrieves articles filtered by a specific language.
-    """
     return db.query(models.Article).filter(models.Article.language == language).offset(skip).limit(limit).all()
