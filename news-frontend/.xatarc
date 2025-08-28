@@ -1,0 +1,6 @@
+{
+  "databaseURL": "https://Sudharsan-s-workspace-t2ff3c.us-east-1.xata.sh/db/news-app-db",
+  "codegen": {
+    "output": "src/xata.ts"
+  }
+}
