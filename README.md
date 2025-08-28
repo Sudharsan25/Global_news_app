@@ -8,9 +8,9 @@ This project provides a comprehensive news application, featuring a robust backe
 
 ## Features
 
-* **Open Source API:** Serves as the initial data source for news articles. (https://mediastack.com/documentation)
-* **Databricks Free Edition (ETL Pipeline):** Orchestrates the daily fetching, transforming, and loading of news articles from the Open Source API into the Xata database.
-* **Xata (PostgreSQL):** A serverless data platform that provides a managed, scalable PostgreSQL database for storing and retrieving news articles.
+* **Open Source API:** Serves as the initial data source for news articles. [Mediastack API](https://mediastack.com/documentation)
+* **Databricks Free Edition (ETL Pipeline):** Orchestrates the daily fetching, transforming, and loading of news articles from the Open Source API into the Xata database. [Databricks](https://www.databricks.com/learn/free-edition)
+* **Xata (PostgreSQL):** A serverless data platform that provides a managed, scalable PostgreSQL database for storing and retrieving news articles. [Xata Docs](https://lite.xata.io/docs)
 * **Next.js API Routes (Backend):** Replaces the previous FastAPI backend, serving as the RESTful API for handling requests from the frontend, querying the Xata database, and returning JSON data.
 * **Next.js (Frontend):** Consumes the Next.js API backend to display, sort, and filter news articles for users.
 
