@@ -9,7 +9,7 @@ This project provides a comprehensive news application, featuring a robust backe
 ## Features
 
 * **Open Source API:** Serves as the initial data source for news articles. [Mediastack API](https://mediastack.com/documentation)
-* **Databricks Free Edition (ETL Pipeline):** Orchestrates the daily fetching, transforming, and loading of news articles from the Open Source API into the Xata database. [Databricks](https://www.databricks.com/learn/free-edition)
+* **Apache Airflow:** Designed and implemented DAGs in ETL pipeline to fetch data from Open-source API and load them into Xata client (PostgresDB)
 * **Xata (PostgreSQL):** A serverless data platform that provides a managed, scalable PostgreSQL database for storing and retrieving news articles. [Xata Docs](https://lite.xata.io/docs)
 * **Next.js API Routes (Backend):** Replaces the previous FastAPI backend, serving as the RESTful API for handling requests from the frontend, querying the Xata database, and returning JSON data.
 * **Next.js (Frontend):** Consumes the Next.js API backend to display, sort, and filter news articles for users.
@@ -51,7 +51,7 @@ This project provides a comprehensive news application, featuring a robust backe
 * **Next.js API Routes:** For building the server-side API endpoints.
 * **Drizzle ORM:** A TypeScript ORM for interacting with the database.
 * **Xata:** A serverless data platform with a managed PostgreSQL database.
-* **Databricks:** A data and AI platform for running the ETL pipeline.
+* **Apache Airflow** A data and AI platform for running the ETL pipeline.
 * **`python-dotenv`:** For managing environment variables.
 * **`pg`:** The PostgreSQL driver for Node.js.
 
