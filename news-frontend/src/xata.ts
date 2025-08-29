@@ -76,6 +76,8 @@ const DatabaseClient = buildClient();
 const defaultOptions = {
   databaseURL:
     "https://Sudharsan-s-workspace-t2ff3c.us-east-1.xata.sh/db/news-app-db",
+    apiKey: process.env.XATA_API_KEY,
+    branch: 'main'
 };
 
 export class XataClient extends DatabaseClient<DatabaseSchema> {
