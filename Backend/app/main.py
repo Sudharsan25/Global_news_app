@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from typing import Optional
 from datetime import date
 from . import crud, models, schemas
-from database import get_db, engine
+from .database import get_db, engine
 from fastapi.middleware.cors import CORSMiddleware
 
 models.Base.metadata.create_all(bind=engine)
