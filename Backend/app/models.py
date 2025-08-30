@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, Text, Date
-from database import Base 
+from .database import Base 
 
 class Article(Base):
     __tablename__ = "news_articles"
