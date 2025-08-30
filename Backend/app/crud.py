@@ -1,24 +1,73 @@
-from sqlalchemy.orm import Session
-from . import models, schemas
-from datetime import date
+# crud.py
 
+from sqlalchemy.orm import Session
+from sqlalchemy import desc, asc, or_
+import models
+from datetime import date
+from typing import Optional
+
+# We are replacing all old functions with this single dynamic one
+def get_articles_dynamic(
+    db: Session,
+    skip: int = 0,
+    limit: int = 10,
+    sort_by: Optional[str] = None,
+    sort_order: str = "desc",
+    category: Optional[str] = None,
+    language: Optional[str] = None,
+    publication_date: Optional[date] = None,
+    search: Optional[str] = None,
+):
+    # Start with a base query
+    query = db.query(models.Article)
+
+    # 1. DYNAMIC FILTERING
+    # Apply filters only if they are provided
+    if category:
+        query = query.filter(models.Article.category == category)
+    if language:
+        query = query.filter(models.Article.language == language)
+    if publication_date:
+        query = query.filter(models.Article.published_at == publication_date)
+    if search:
+        # Case-insensitive search in title and description
+        search_term = f"%{search}%"
+        query = query.filter(
+            or_(
+                models.Article.title.ilike(search_term),
+                models.Article.description.ilike(search_term),
+            )
+        )
+
+    # 2. DYNAMIC SORTING
+    if sort_by:
+        # Map user-friendly sort names to the actual database model columns
+        sortable_columns = {
+            "date": models.Article.published_at,
+            "title": models.Article.title,
+            "category": models.Article.category,
+        }
+        sort_column = sortable_columns.get(sort_by)
+
+        if sort_column is not None:
+            if sort_order == "desc":
+                query = query.order_by(desc(sort_column))
+            else:
+                query = query.order_by(asc(sort_column))
+    else:
+        # Default sort order if nothing is specified
+        query = query.order_by(desc(models.Article.published_at))
+
+
+    # Get the total count of items that match the filters *before* applying pagination
+    total_items = query.count()
+
+    # 3. PAGINATION
+    paginated_results = query.offset(skip).limit(limit).all()
+
+    # Return a dictionary with both the data and the total count
+    return {"total_items": total_items, "data": paginated_results}
+
+# You can keep get_article if you have a detail page, or remove it.
 def get_article(db: Session, article_id: int):
     return db.query(models.Article).filter(models.Article.id == article_id).first()
-
-def get_articles(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Article).offset(skip).limit(limit).all()
-
-def get_articles_by_date(db: Session, publication_date: date):
-    return db.query(models.Article).filter(models.Article.published_at == publication_date).all()
-
-def get_articles_by_category(db: Session, category: str):
-    return db.query(models.Article).filter(models.Article.category == category).all()
-
-def get_articles_sorted_by_date_latest(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Article).order_by(models.Article.published_at.desc()).offset(skip).limit(limit).all()
-
-def get_articles_sorted_by_title_asc(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Article).order_by(models.Article.title.asc()).offset(skip).limit(limit).all()
-
-def get_articles_by_language(db: Session, language: str, skip: int = 0, limit: int = 100):
-    return db.query(models.Article).filter(models.Article.language == language).offset(skip).limit(limit).all()

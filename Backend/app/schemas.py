@@ -1,10 +1,12 @@
+# schemas.py
+
 from pydantic import BaseModel
 from datetime import date
-from typing import Optional 
+from typing import Optional, List # Make sure List is imported
 
 class ArticleBase(BaseModel):
     title: str
-    author: Optional[str] = None 
+    author: Optional[str] = None
     description: str
     url: Optional[str] = None
     image_url: Optional[str] = None
@@ -14,9 +16,13 @@ class ArticleBase(BaseModel):
     country: str
     published_at: date
 
-
 class Article(ArticleBase):
     id: int
 
     class Config:
-        from_attributes = True 
+        from_attributes = True
+
+# NEW: Schema for the paginated response
+class PaginatedArticleResponse(BaseModel):
+    total_items: int
+    data: List[Article]
