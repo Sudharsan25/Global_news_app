@@ -4,18 +4,16 @@ from fastapi import FastAPI, Depends, Query
 from sqlalchemy.orm import Session
 from typing import Optional
 from datetime import date
-
-import crud
-import models
-import schemas
+from crud import get_articles_dynamic
+from models import Base
+from schemas import PaginatedArticleResponse
 from database import get_db, engine
 from fastapi.middleware.cors import CORSMiddleware
 
-models.Base.metadata.create_all(bind=engine)
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-# Your CORS configuration remains the same
 origins = [
     "http://localhost:3000",
     "http://localhost:8000",
@@ -30,9 +28,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# REMOVED all old /articles/* routes. They are replaced by the one below.
 
-@app.get("/articles/", response_model=schemas.PaginatedArticleResponse)
+@app.get("/articles/", response_model=PaginatedArticleResponse)
 def read_all_articles(
     db: Session = Depends(get_db),
     # Pagination parameters
@@ -54,7 +51,7 @@ def read_all_articles(
     - **sort_by**: 'date', 'title', 'category'
     - **sort_order**: 'asc', 'desc'
     """
-    articles_response = crud.get_articles_dynamic(
+    articles_response = get_articles_dynamic(
         db=db,
         skip=skip,
         limit=limit,

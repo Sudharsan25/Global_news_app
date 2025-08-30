@@ -2,7 +2,7 @@
 
 from pydantic import BaseModel
 from datetime import date
-from typing import Optional, List # Make sure List is imported
+from typing import Optional, List
 
 class ArticleBase(BaseModel):
     title: str
