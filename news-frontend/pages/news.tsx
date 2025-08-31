@@ -1,4 +1,3 @@
-// pages/news.tsx
 import { useState, useEffect, useMemo } from 'react';
 import NewsCard from '../components/NewsCard';
 import Head from 'next/head';
@@ -8,7 +7,6 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 
 // --- Skeleton Component for a single card ---
-// This component mimics the structure of your NewsCard with pulsing placeholders.
 const SkeletonCard = () => (
     <div className="bg-white rounded-lg shadow-md overflow-hidden animate-pulse">
         {/* Image Placeholder */}
@@ -24,7 +22,6 @@ const SkeletonCard = () => (
 );
 
 // --- Component to render the grid of skeletons ---
-// This keeps the main component's return statement cleaner.
 const LoadingState = ({ count = 9 }: { count?: number }) => (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
         {Array.from({ length: count }).map((_, index) => (
@@ -35,22 +32,21 @@ const LoadingState = ({ count = 9 }: { count?: number }) => (
 
 
 export default function NewsPage() {
-    // --- NEW State Management ---
     const [articles, setArticles] = useState<NewsArticle[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     
     // Pagination State
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const articlesPerPage = 9; // This remains our page size
+    const articlesPerPage = 9; 
 
-    // Sort & Filter State (simplified and combined)
+    // Sort & Filter State
     const [sortBy, setSortBy] = useState('date'); // 'date', 'title', 'category'
     const [sortOrder, setSortOrder] = useState('desc'); // 'asc', 'desc'
     const [categoryFilter, setCategoryFilter] = useState('');
     const [languageFilter, setLanguageFilter] = useState('');
     const [dateFilter, setDateFilter] = useState<Date | null>(null);
-    const [searchQuery, setSearchQuery] = useState(''); // For the new search functionality
+    const [searchQuery, setSearchQuery] = useState('');
     
     // UI State for dropdowns
     const [showSortDropdown, setShowSortDropdown] = useState(false);
@@ -62,71 +58,70 @@ export default function NewsPage() {
 
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000';
 
-    // --- Main data fetching logic (NEW) ---
-useEffect(() => {
-    const fetchArticles = async () => {
-        setIsLoading(true);
-        
-        // Use URLSearchParams to easily build the query string
-        const params = new URLSearchParams();
 
-        // 1. Pagination
-        params.append('limit', String(articlesPerPage));
-        params.append('skip', String((currentPage - 1) * articlesPerPage));
-
-        // 2. Sorting
-        if (sortBy) {
-            params.append('sort_by', sortBy);
-            params.append('sort_order', sortOrder);
-        }
-
-        // 3. Filtering
-        if (categoryFilter) params.append('category', categoryFilter);
-        if (languageFilter) params.append('language', languageFilter);
-        if (dateFilter) params.append('publication_date', dateFilter.toISOString().split('T')[0]);
-        if (searchQuery) params.append('search', searchQuery);
-        
-        const fetchUrl = `${apiUrl}/articles/?${params.toString()}`;
-        console.log(`Fetching from: ${fetchUrl}`);
-
-        try {
-            const response = await fetch(fetchUrl);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
+    useEffect(() => {
+        const fetchArticles = async () => {
+            setIsLoading(true);
             
-            // The API now returns an object: { total_items: number, data: [...] }
-            const result = await response.json();
-            
-            setArticles(result.data);
-            setTotalPages(Math.ceil(result.total_items / articlesPerPage));
+            // Use URLSearchParams to easily build the query string
+            const params = new URLSearchParams();
 
-            // Note: This logic for categories/languages is okay, but it only shows
-            // options from the *entire* dataset on the first load if no filters are active.
-            // A dedicated API endpoint would be the next improvement.
-            if (currentPage === 1 && !categoryFilter && !languageFilter && !dateFilter && !searchQuery) {
-                const categories = new Set<string>();
-                const languages = new Set<string>();
-                result?.data?.forEach((article: NewsArticle) => {
-                    if (article.category) categories.add(article.category);
-                    if (article.language) languages.add(article.language);
-                });
-                setAllCategories(Array.from(categories).sort());
-                setAllLanguages(Array.from(languages).sort());
+            // 1. Pagination
+            params.append('limit', String(articlesPerPage));
+            params.append('skip', String((currentPage - 1) * articlesPerPage));
+
+            // 2. Sorting
+            if (sortBy) {
+                params.append('sort_by', sortBy);
+                params.append('sort_order', sortOrder);
             }
 
-        } catch (error) {
-            console.error("Error fetching news articles:", error);
-            setArticles([]);
-            setTotalPages(1);
-        } finally {
-            setIsLoading(false);
-        }
-    };
+            // 3. Filtering
+            if (categoryFilter) params.append('category', categoryFilter);
+            if (languageFilter) params.append('language', languageFilter);
+            if (dateFilter) params.append('publication_date', dateFilter.toISOString().split('T')[0]);
+            if (searchQuery) params.append('search', searchQuery);
+            
+            const fetchUrl = `${apiUrl}/articles/?${params.toString()}`;
+            console.log(`Fetching from: ${fetchUrl}`);
 
-    fetchArticles();
-    // This effect re-runs whenever any of these dependencies change
-}, [currentPage, sortBy, sortOrder, categoryFilter, languageFilter, dateFilter, searchQuery, apiUrl]);
+            try {
+                const response = await fetch(fetchUrl);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                // The API now returns an object: { total_items: number, data: [...] }
+                const result = await response.json();
+                
+                setArticles(result.data);
+                setTotalPages(Math.ceil(result.total_items / articlesPerPage));
+
+                // Note: This logic for categories/languages is okay, but it only shows
+                // options from the *entire* dataset on the first load if no filters are active.
+                // A dedicated API endpoint would be the next improvement.
+                if (currentPage === 1 && !categoryFilter && !languageFilter && !dateFilter && !searchQuery) {
+                    const categories = new Set<string>();
+                    const languages = new Set<string>();
+                    result?.data?.forEach((article: NewsArticle) => {
+                        if (article.category) categories.add(article.category);
+                        if (article.language) languages.add(article.language);
+                    });
+                    setAllCategories(Array.from(categories).sort());
+                    setAllLanguages(Array.from(languages).sort());
+                }
+
+            } catch (error) {
+                console.error("Error fetching news articles:", error);
+                setArticles([]);
+                setTotalPages(1);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchArticles();
+    }, [currentPage, sortBy, sortOrder, categoryFilter, languageFilter, dateFilter, searchQuery, apiUrl]);
 
     const handleNextPage = () => { if (currentPage < totalPages) setCurrentPage(p => p + 1); };
 const handlePreviousPage = () => { if (currentPage > 1) setCurrentPage(p => p - 1); };
@@ -183,7 +178,6 @@ const clearFilters = () => {
 
             <main className="container mx-auto px-4 py-12">
               <div className="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
-                {/* Search Input (NEW) */}
                 <div className="relative w-full sm:w-1/3">
                     <input
                         type="text"
@@ -196,7 +190,7 @@ const clearFilters = () => {
 
                 {/* Sort and Filter Controls */}
                 <div className='flex flex-row gap-2'>
-                  {/* NEW: Sort Dropdown */}
+                  {/* Sort Dropdown */}
                   <div className="relative z-20">
                     <button
                       onClick={() => setShowSortDropdown(!showSortDropdown)}
@@ -288,7 +282,7 @@ const clearFilters = () => {
                   </div>
                 </div>
               </div>
-                {/* Updated Rendering Logic */}
+                {/* Rendering Logic */}
                 {isLoading ? (
                     <LoadingState />
                 ) : articles && articles.length > 0 ? (

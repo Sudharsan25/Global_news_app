@@ -1,14 +1,14 @@
 // components/NewsCard.tsx
 import Image from 'next/image';
 import { NewsArticle } from '../types';
-import customImageLoader from '../components/ImageLoader'; // Make sure this path is correct
+import customImageLoader from '../components/ImageLoader';
 
 interface NewsCardProps {
   article: NewsArticle;
 }
 
 export default function NewsCard({ article }: NewsCardProps) {
-  const defaultImageUrl = '/default-news-image.jpg'; // Ensure this image exists in your /public folder
+  const defaultImageUrl = '/default-news-image.jpg';
 
   // Format date for display
   const publishedDate = article.published_at
@@ -28,12 +28,12 @@ export default function NewsCard({ article }: NewsCardProps) {
           alt={article.title || 'News Image'}
           layout="fill"
           objectFit="cover"
-          className="rounded-t-xl" // Apply border-radius to top corners
+          className="rounded-t-xl"
           onError={(e) => {
             const target = e.target as HTMLImageElement;
-            if (target.src !== defaultImageUrl) { // Prevent infinite loop if default image also fails
+            if (target.src !== defaultImageUrl) {
                 target.src = defaultImageUrl;
-                target.srcset = ''; // Clear srcset to prevent further attempts
+                target.srcset = '';
             }
           }}
         />
